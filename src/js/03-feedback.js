@@ -32,5 +32,5 @@ form.addEventListener('submit', event => {
   form.reset();
 });
 
-form.elements.message.value = defaultValue ?? '';
-form.elements.email.value = defaultValue ?? '';
+// form.elements.message.value = defaultValue ?? '';
+// form.elements.email.value = defaultValue ?? '';
