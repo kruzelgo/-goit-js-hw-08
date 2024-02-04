@@ -8,14 +8,20 @@ const localStorageKey = 'feedback-form-state';
 
 const defaultValue = localStorage.getItem(localStorageKey);
 
+const isFormValid = () => {
+  return email.value.trim() !== '' && message.value.trim() !== '';
+};
+
 form.addEventListener(
   'input',
   throttle(() => {
-    const formStatus = {
-      email: email.value.trim(),
-      message: message.value.trim(),
-    };
-    localStorage.setItem(localStorageKey, JSON.stringify(formStatus));
+    if (isFormValid()) {
+      const formStatus = {
+        email: email.value.trim(),
+        message: message.value.trim(),
+      };
+      localStorage.setItem(localStorageKey, JSON.stringify(formStatus));
+    }
   }, 500)
 );
 
@@ -28,9 +34,15 @@ if (storedFormStatus) {
 
 form.addEventListener('submit', event => {
   event.preventDefault();
-  localStorage.removeItem(localStorageKey);
-  form.reset();
-});
 
-// form.elements.message.value = defaultValue ?? '';
-// form.elements.email.value = defaultValue ?? '';
+  if (isFormValid()) {
+    console.log('Data Form:', {
+      email: email.value,
+      message: message.value,
+    });
+    localStorage.removeItem(localStorageKey);
+    form.reset();
+  } else {
+    alert('Please fill in all fields before submitting the form.');
+  }
+});
